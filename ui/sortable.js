@@ -73,7 +73,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 	},
 
 	_isFloating: function( item ) {
-		return (/left|right/).test(item.css("float")) || (/inline|table-cell/).test(item.css("display"));
+		return (/left|right/).test(item.css("float")) || (/inline|table-cell/).test(item.css("display")) || item.parent().css("display") == "flex";
 	},
 
 	_create: function() {
@@ -959,7 +959,10 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		if(!helper[0].style.width || o.forceHelperSize) {
-			helper.width(this.currentItem.width());
+			// clientWidth / el.width() rounds the value, which can cause the element to become bigger
+			// and cause it to move to a new row
+			// instead use bounding client rect width, which uses decimal value
+			helper.width(this.currentItem[0].getBoundingClientRect().width);
 		}
 		if(!helper[0].style.height || o.forceHelperSize) {
 			helper.height(this.currentItem.height());
