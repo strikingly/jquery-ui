@@ -962,7 +962,8 @@ return $.widget("ui.sortable", $.ui.mouse, {
 			// clientWidth / el.width() rounds the value, which can cause the element to become bigger
 			// and cause it to move to a new row
 			// instead use bounding client rect width, which uses decimal value
-			helper.width(this.currentItem[0].getBoundingClientRect().width);
+            // Also: use outerWidth to avoid jQuery adding padding that's already included in boudning rect width
+			helper.outerWidth(this.currentItem[0].getBoundingClientRect().width);
 		}
 		if(!helper[0].style.height || o.forceHelperSize) {
 			helper.height(this.currentItem.height());
